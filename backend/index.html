@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Real-time Transcription</title>
+  </head>
+  <body>
+    <h1>Real-time Transcription</h1>
+    <div id="transcript"></div>
+    <script>
+      const transcriptDiv = document.getElementById("transcript");
+      const websocket = new WebSocket("ws://localhost:8765"); // Connects to the WebSocket server
+
+      websocket.onmessage = (event) => {
+        const new_text = event.data;
+        console.log("Received:", new_text); // Log the received message
+        transcriptDiv.innerHTML += new_text + " ";
+      };
+
+      websocket.onopen = () => {
+        // Called when the WebSocket connection is established
+        console.log("Connected to WebSocket server");
+      };
+
+      websocket.onerror = (error) => {
+        // Called if there's an error with the WebSocket connection
+        console.error("WebSocket error:", error);
+      };
+    </script>
+  </body>
+</html>
